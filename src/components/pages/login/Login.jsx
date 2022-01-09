@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, FormControl, InputLabel, Input, Button, Icon } from '@material-ui/core'
+import { Grid, FormControl, InputLabel, Input, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { PersonSharp, LockSharp } from '@mui/icons-material';
 import { InputAdornment } from '@mui/material/';
@@ -25,7 +25,7 @@ function Login() {
 
     const classes = useStyles();
 
-    let response = false;
+    // let response = false;
 
     //when it loads for the first time it doesn't show the message
     let showError = false;
@@ -43,7 +43,7 @@ function Login() {
     });
 
 
-    const [redirectHome, setRedirectHome] = useState(false);
+    // const [redirectHome, setRedirectHome] = useState(false);
 
     //when the input is filled, the value is stored in newValues.inputName and the input errors is reset
     const writtenUsername = (e) => {
@@ -75,7 +75,7 @@ function Login() {
         // submit
         // response = usersService.login(newValues.username, newValues.password);
 
-        setRedirectHome(true);
+        // setRedirectHome(true);
 
         // reset form
         setNewValues({
