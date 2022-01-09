@@ -25,8 +25,6 @@ function FixedExpenses() {
     return (
         <>
             <div>Mostrando FixedExpenses</div>
-            <ToDo />
-            <Done />
             <TableContainer component={Paper}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -45,14 +43,10 @@ function FixedExpenses() {
 
                     <TableBody>
 
-                        {toDos.map(toDo =>
-                            <TableRow key={toDo} component="th" scope="row" align="center" colSpan={1}>
-                                <TableCell align="center" colSpan={1}>{toDo}</TableCell>
-                                <TableCell align="center" colSpan={1}>done </TableCell>
-                            </TableRow>
-                        )}
-
-
+                        <TableRow component="th" scope="row" align="center" colSpan={1}>
+                            <TableCell align="center" colSpan={1}>  <ToDo /> </TableCell>
+                            <TableCell align="center" colSpan={1}> <Done /> </TableCell>
+                        </TableRow>
 
                     </TableBody>
                 </Table>

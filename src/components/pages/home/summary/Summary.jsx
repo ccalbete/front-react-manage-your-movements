@@ -39,7 +39,7 @@ function Summary() {
             </div>
             <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
                 {categories.map(category =>
-                    <Grid item xs={2} sm={4} md={4} key={category.id} >  <Category categoryTitle={category.name} amount={category.amount} /> </Grid>
+                    <Grid item xs={2} sm={4} md={4} key={category.id} >  <Category title={category.name} amount={category.amount} /> </Grid>
                 )}
             </Grid>
 

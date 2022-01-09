@@ -13,7 +13,7 @@ const useStyles = makeStyles({
 
 
 
-function Category({ categoryTitle, amount }) {
+function Category({ title, amount }) {
     const classes = useStyles();
     return (
         <Card variant="outlined" sx={{ minWidth: 275 }} className={classes.card}>
@@ -22,7 +22,7 @@ function Category({ categoryTitle, amount }) {
                     ${amount}
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.primary">
-                    {categoryTitle}
+                    {title}
                 </Typography>
             </CardContent>
         </Card>
