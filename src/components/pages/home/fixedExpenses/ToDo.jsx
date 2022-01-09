@@ -1,12 +1,12 @@
 import React from 'react';
 
-function Header() {
+function ToDo() {
 
     return (
         <div>
-            Mostrando Header
+            Mostrando ToDo
         </div>
     );
 }
 
-export default Header; 
+export default ToDo;
