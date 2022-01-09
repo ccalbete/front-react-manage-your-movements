@@ -24,7 +24,6 @@ function FixedExpenses() {
 
     return (
         <>
-            <div>Mostrando FixedExpenses</div>
             <TableContainer component={Paper}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -44,8 +43,8 @@ function FixedExpenses() {
                     <TableBody>
 
                         <TableRow component="th" scope="row" align="center" colSpan={1}>
-                            <TableCell align="center" colSpan={1}>  <ToDo /> </TableCell>
-                            <TableCell align="center" colSpan={1}> <Done /> </TableCell>
+                            <TableCell align="center" colSpan={1}>  <ToDo listItems={toDos}/> </TableCell>
+                            <TableCell align="center" colSpan={1}> <Done listItems={dones}/> </TableCell>
                         </TableRow>
 
                     </TableBody>
