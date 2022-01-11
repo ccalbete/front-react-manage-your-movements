@@ -16,12 +16,12 @@ function Done({ listItems }) {
                     <List >
                         {
                             listItems.map(item => {
-                                <>
+                                return (<>
                                     <Divider />
                                     <ListItem >
                                         <ListItemText primary={item} />
                                     </ListItem>
-                                </>
+                                </>);
                             })}
                     </List>
                 </Box>

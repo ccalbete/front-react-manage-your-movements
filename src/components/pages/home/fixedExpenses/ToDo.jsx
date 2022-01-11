@@ -16,12 +16,12 @@ function ToDo({ listItems }) {
                 <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                     <List >
                         {listItems.map(item => {
-                            <>
+                            return (<>
                                 <Divider />
                                 <ListItem disablePadding>
                                     <ListItemText primary={item} />
                                 </ListItem>
-                            </>
+                            </>);
                         })}
                     </List>
                 </Box>
