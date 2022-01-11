@@ -8,20 +8,20 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import { Grid } from '@material-ui/core';
 
-function ToDo({listItems}) {
+function ToDo({ listItems }) {
 
     return (
         <>
-            <Grid container justify="center">
+            <Grid container justifyContent="center">
                 <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                     <List >
-                        { listItems.map(item => {
-                        <>
-                        <Divider /> 
-                        <ListItem disablePadding>
-                            <ListItemText primary={item} />
-                        </ListItem>
-                        </>
+                        {listItems.map(item => {
+                            <>
+                                <Divider />
+                                <ListItem disablePadding>
+                                    <ListItemText primary={item} />
+                                </ListItem>
+                            </>
                         })}
                     </List>
                 </Box>

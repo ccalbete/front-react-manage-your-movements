@@ -7,21 +7,22 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import { Grid } from '@material-ui/core';
 
-function Done({listItems}) {
+function Done({ listItems }) {
 
     return (
         <>
-            <Grid container justify="center">
+            <Grid container justifyContent="center">
                 <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                     <List >
-                        { listItems.map(item => {
-                        <>
-                        <Divider /> 
-                        <ListItem >
-                            <ListItemText primary={item} />
-                        </ListItem>
-                        </>
-                        })}
+                        {
+                            listItems.map(item => {
+                                <>
+                                    <Divider />
+                                    <ListItem >
+                                        <ListItemText primary={item} />
+                                    </ListItem>
+                                </>
+                            })}
                     </List>
                 </Box>
             </Grid>
