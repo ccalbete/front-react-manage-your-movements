@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import { makeStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
-import Header from './../../common/header/Header'
+import Header from '../../common/header/Header'
 
 const useStyles = makeStyles({
     title: {
@@ -24,8 +24,8 @@ const useStyles = makeStyles({
 export default function Income() {
     const classes = useStyles();
 
-    const reasons = ["sueldo", "regalo", "sobro mes anterior"];
-    const paymentModes = ["brou", "santander", "itau"];
+    const reasons = ["Gift", "regalo", "sobro mes anterior"];
+    const paymentModes = ["Cash", "santander", "itau"];
 
     const [reason, setReason] = React.useState('');
     const [amount, setAmount] = React.useState('');
@@ -46,7 +46,24 @@ export default function Income() {
     };
 
     const saveIncome = () => {
-        console.log('saved')
+        fetch("http://localhost:3000/incomes", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "auth-token": localStorage.getItem("token"),
+            },
+            body: JSON.stringify({
+                "date": '2022-04',
+                "reason": reason,
+                "amount": parseInt(amount),
+                "paymentMode": paymentMode,
+            })
+        }).then().catch(error => console.error('Error: ', error));
+
+        //reset form 
+        setReason('');
+        setAmount('');
+        setPaymentMode('');
     }
 
     return (
