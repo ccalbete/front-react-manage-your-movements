@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import { makeStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
+import Header from './../../common/header/Header'
 
 const useStyles = makeStyles({
     title: {
@@ -48,9 +49,10 @@ export default function Transfer() {
 
     return (
         <>
+            <Header />
             <h1 className={classes.title}>Income</h1>
 
-            <FormControl sx={{ m: 1, minWidth: 150 }}>
+            <FormControl sx={{ m: 1, minWidth: 160 }}>
                 <InputLabel id="originLabel">Origin*</InputLabel>
                 <Select labelId="originLabel"
                     id="originSelect" value={origin} label="Origin" onChange={handleChangeOrigin} >

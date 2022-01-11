@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import { makeStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
+import Header from './../../common/header/Header'
 
 const useStyles = makeStyles({
     title: {
@@ -55,6 +56,7 @@ export default function Expense() {
 
     return (
         <>
+            <Header />
             <h1 className={classes.title}>Expense</h1>
             <FormControl sx={{ m: 1, minWidth: 150 }}>
                 <InputLabel id="placeLabel">Place</InputLabel>
@@ -83,7 +85,7 @@ export default function Expense() {
                 }}
             />
 
-            <FormControl sx={{ m: 1, minWidth: 150 }}>
+            <FormControl sx={{ m: 1, minWidth: 160 }}>
                 <InputLabel id="paymentModeLabel">Payment mode*</InputLabel>
                 <Select labelId="paymentModeLabel"
                     id="paymentModeSelect" value={paymentMode} label="Payment mode" onChange={handleChangePaymentMode} >

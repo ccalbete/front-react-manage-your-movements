@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import { makeStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
+import Header from './../../common/header/Header'
 
 const useStyles = makeStyles({
     title: {
@@ -50,6 +51,7 @@ export default function Income() {
 
     return (
         <>
+            <Header />
             <h1 className={classes.title}>Income</h1>
 
             <FormControl sx={{ m: 1, minWidth: 150 }}>
