@@ -28,14 +28,9 @@ function Login() {
 
     // let response = false;
 
-    //when it loads for the first time it doesn't show the message
-    let showError = false;
 
-    //key is the input name and value is a boolean that indicates if it's empty
-    const [errors, setErrors] = useState({
-        username: '',
-        password: '',
-    });
+    const [showErrorEmptyFields, setShowErrorEmptyFields] = useState(false);
+    const [showErrorLoginFails, setShowErrorLoginFails] = useState(false);
 
     //key is the input name and value is the input content
     const [newValues, setNewValues] = useState({
@@ -49,34 +44,46 @@ function Login() {
     //when the input is filled, the value is stored in newValues.inputName and the input errors is reset
     const writtenUsername = (e) => {
         setNewValues({ ...newValues, 'username': e.target.value });
-        setErrors({ ...errors, 'username': false })
+        setShowErrorEmptyFields(false);
     }
 
     const writtenPassword = (e) => {
         setNewValues({ ...newValues, 'password': e.target.value });
-        setErrors({ ...errors, 'password': false })
+        setShowErrorEmptyFields(false);
     }
 
     //if some input is empty, show an error message, else submit
     const attemptLogin = async () => {
-        const newErrors = {};
+        setShowErrorLoginFails(false);
 
-        if (!newValues.username) {
-            newErrors.username = true;
-        }
-        if (!newValues.password) {
-            newErrors.password = true;
-        }
-        // if not valid, set the error state
+        //if at least one field is empty, show the error and go out the function
         if (!newValues.username || !newValues.password) {
-            setErrors(newErrors)
-            return;
+            setShowErrorEmptyFields(true);
+            return
         }
+
 
         // submit
         // response = usersService.login(newValues.username, newValues.password);
-
-        // setRedirectHome(true);
+        fetch("http://localhost:3000/users/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "username": newValues.username,
+                "password": newValues.password,
+            })
+        }).then(function (response) {
+            return response.json();
+        }).then(function (response) {
+            if (response.success) {
+                localStorage.setItem("token", response.token);
+            } else {
+                setShowErrorLoginFails(true);
+                return;
+            }
+        }).catch(error => console.error('Error: ', error));
 
         // reset form
         setNewValues({
@@ -91,7 +98,7 @@ function Login() {
             <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.container}>
                 <Grid item className={classes.fields}>
                     <FormControl>
-                        <InputLabel htmlFor='username'>Username</InputLabel>
+                        <InputLabel htmlFor='username'>Username *</InputLabel>
                         <Input id='username' type='email' value={newValues.username} onChange={writtenUsername} startAdornment={
                             <InputAdornment position="start">
                                 <PersonSharp />
@@ -102,7 +109,7 @@ function Login() {
 
                 <Grid item className={classes.fields}>
                     <FormControl>
-                        <InputLabel htmlFor='password'>Password</InputLabel>
+                        <InputLabel htmlFor='password'>Password *</InputLabel>
                         <Input id='password' type='password' value={newValues.password} onChange={writtenPassword} startAdornment={
                             <InputAdornment position="start">
                                 <LockSharp />
@@ -116,8 +123,8 @@ function Login() {
                 </Grid>
 
                 <Grid item>
-                    {showError = errors.username || errors.password}
-                    {showError && <ErrorMessage> All fields are required </ErrorMessage>}
+                    {showErrorEmptyFields && <ErrorMessage> All fields are required </ErrorMessage>}
+                    {showErrorLoginFails && <ErrorMessage> Wrong username or password </ErrorMessage>}
                 </Grid>
             </Grid>
         </>
