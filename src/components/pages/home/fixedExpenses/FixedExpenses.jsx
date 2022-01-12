@@ -7,8 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Done from './Done';
-import ToDo from './ToDo';
+import FixedExpenseItems from './FixedExpenseItems';
+import categoryService from "./../../../../services/categories"
 
 
 
@@ -16,6 +16,24 @@ import ToDo from './ToDo';
 function FixedExpenses() {
 
 
+    const [columnToDo, setColumnToDo] = React.useState([]);
+    const [columnDone, setColumnDone] = React.useState([]);
+
+    React.useEffect(async () => {
+        try {
+            //Fetch
+            const fixedExpenses = await categoryService.getUserFixedExpensesCategories();
+
+            const fixedExpensesToDo = fixedExpenses.filter(fixedExpense => fixedExpense.spent === 0);
+            const fixedExpensesDone = fixedExpenses.filter(fixedExpense => fixedExpense.spent > 0);
+
+            setColumnToDo(fixedExpensesToDo);
+            setColumnDone(fixedExpensesDone)
+
+
+            //Cambiamos el estado con las tareas del servidor
+        } catch (error) { }
+    }, []);
 
     const toDos = ['Booking', 'Apartmaneto', 'otraCosapending'];
 
@@ -43,8 +61,8 @@ function FixedExpenses() {
                     <TableBody>
 
                         <TableRow component="th" scope="row" align="center" colSpan={1}>
-                            <TableCell align="center" colSpan={1}>  <ToDo listItems={toDos}/> </TableCell>
-                            <TableCell align="center" colSpan={1}> <Done listItems={dones}/> </TableCell>
+                            <TableCell align="center" colSpan={1}>  <FixedExpenseItems itemsList={columnToDo} /> </TableCell>
+                            <TableCell align="center" colSpan={1}> <FixedExpenseItems itemsList={columnDone} /> </TableCell>
                         </TableRow>
 
                     </TableBody>
