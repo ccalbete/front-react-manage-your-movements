@@ -37,7 +37,7 @@ export default function Income() {
         setReason(event.target.value);
     };
 
-    const handleChangAmount = (event) => {
+    const handleChangeAmount = (event) => {
         setAmount(event.target.value);
     };
 
@@ -82,7 +82,7 @@ export default function Income() {
             </FormControl>
 
 
-            <TextField type='number' label="Amount*" id="amountTextField" value={amount} sx={{ m: 1, width: 120 }} onChange={handleChangAmount}
+            <TextField type='number' label="Amount*" id="amountTextField" value={amount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
                 InputProps={{
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                 }}
