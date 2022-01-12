@@ -24,14 +24,14 @@ const useStyles = makeStyles({
 export default function Transfer() {
     const classes = useStyles();
 
-    const paymentModes = ["brou", "santander", "itau"];
+    const paymentModes = ["Cash", "Brou debit card", "Santander debit card"];
 
     const [amount, setAmount] = React.useState('');
     const [origin, setOrigin] = React.useState('');
     const [destination, setDestination] = React.useState('');
 
 
-    const handleChangAmount = (event) => {
+    const handleChangeAmount = (event) => {
         setAmount(event.target.value);
     };
 
@@ -44,13 +44,30 @@ export default function Transfer() {
     };
 
     const saveTransfer = () => {
-        console.log('saved')
+        fetch("http://localhost:3000/transfers", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "auth-token": localStorage.getItem("token"),
+            },
+            body: JSON.stringify({
+                "date": '2022-04',
+                "origin": origin,
+                "amount": parseInt(amount),
+                "destination": destination
+            })
+        }).then().catch(error => console.error('Error: ', error));
+
+        //reset form
+        setAmount('');
+        setOrigin('');
+        setDestination('');
     }
 
     return (
         <>
             <Header />
-            <h1 className={classes.title}>Income</h1>
+            <h1 className={classes.title}>Transfer</h1>
 
             <FormControl sx={{ m: 1, minWidth: 160 }}>
                 <InputLabel id="originLabel">Origin*</InputLabel>
@@ -63,7 +80,7 @@ export default function Transfer() {
             </FormControl>
 
 
-            <TextField type='number' label="Amount*" id="amountTextField" value={amount} sx={{ m: 1, width: 120 }} onChange={handleChangAmount}
+            <TextField type='number' label="Amount*" id="amountTextField" value={amount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
                 InputProps={{
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                 }}
