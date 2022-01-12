@@ -55,7 +55,7 @@ export default function Income() {
             body: JSON.stringify({
                 "date": '2022-04',
                 "reason": reason,
-                "amount": parseInt(amount),
+                "amount": amount,
                 "paymentMode": paymentMode,
             })
         }).then().catch(error => console.error('Error: ', error));
