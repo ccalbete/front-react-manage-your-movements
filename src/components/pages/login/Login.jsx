@@ -42,12 +42,12 @@ function Login() {
     // const [redirectHome, setRedirectHome] = useState(false);
 
     //when the input is filled, the value is stored in newValues.inputName and the input errors is reset
-    const writtenUsername = (e) => {
+    const handleChangeUsername = (e) => {
         setNewValues({ ...newValues, 'username': e.target.value });
         setShowErrorEmptyFields(false);
     }
 
-    const writtenPassword = (e) => {
+    const handleChangePassword = (e) => {
         setNewValues({ ...newValues, 'password': e.target.value });
         setShowErrorEmptyFields(false);
     }
@@ -64,7 +64,6 @@ function Login() {
 
 
         // submit
-        // response = usersService.login(newValues.username, newValues.password);
         fetch("http://localhost:3000/users/login", {
             method: "POST",
             headers: {
@@ -99,7 +98,7 @@ function Login() {
                 <Grid item className={classes.fields}>
                     <FormControl>
                         <InputLabel htmlFor='username'>Username *</InputLabel>
-                        <Input id='username' type='email' value={newValues.username} onChange={writtenUsername} startAdornment={
+                        <Input id='username' type='email' value={newValues.username} onChange={handleChangeUsername} startAdornment={
                             <InputAdornment position="start">
                                 <PersonSharp />
                             </InputAdornment>
@@ -110,7 +109,7 @@ function Login() {
                 <Grid item className={classes.fields}>
                     <FormControl>
                         <InputLabel htmlFor='password'>Password *</InputLabel>
-                        <Input id='password' type='password' value={newValues.password} onChange={writtenPassword} startAdornment={
+                        <Input id='password' type='password' value={newValues.password} onChange={handleChangePassword} startAdornment={
                             <InputAdornment position="start">
                                 <LockSharp />
                             </InputAdornment>
