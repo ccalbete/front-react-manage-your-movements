@@ -24,9 +24,9 @@ const useStyles = makeStyles({
 export default function Expense() {
     const classes = useStyles();
 
-    const places = ["Supermarket frog", "disco", "el tunel", "t inglesa"];
-    const categories = ["Comida", "salidas", "farmacia"];
-    const paymentModes = ["brou", "santander", "itau"];
+    const places = ["Supermarket Frog", "disco", "el tunel", "t inglesa"];
+    const categories = ["Transportation", "salidas", "farmacia"];
+    const paymentModes = ["Itau credit card", "Brou debit card", "itau"];
 
     const [place, setPlace] = React.useState('');
     const [category, setCategory] = React.useState('');
@@ -42,7 +42,7 @@ export default function Expense() {
         setCategory(event.target.value);
     };
 
-    const handleChangAmount = (event) => {
+    const handleChangeAmount = (event) => {
         setAmount(event.target.value);
     };
 
@@ -51,7 +51,26 @@ export default function Expense() {
     };
 
     const saveExpense = () => {
-        console.log('saved')
+        fetch("http://localhost:3000/expenses", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "auth-token": localStorage.getItem("token"),
+            },
+            body: JSON.stringify({
+                "date": '2022-08',
+                "place": place,
+                "category": category,
+                "amount": amount,
+                "paymentMode": paymentMode
+            })
+        }).then().catch(error => console.error('Error: ', error));
+
+        //reset form
+        setPlace('');
+        setCategory('');
+        setAmount('');
+        setPaymentMode('');
     }
 
     return (
@@ -79,7 +98,7 @@ export default function Expense() {
             </FormControl>
 
 
-            <TextField type='number' label="Amount*" id="amountTextField" value={amount} sx={{ m: 1, width: 120 }} onChange={handleChangAmount}
+            <TextField type='number' label="Amount*" id="amountTextField" value={amount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
                 InputProps={{
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                 }}
