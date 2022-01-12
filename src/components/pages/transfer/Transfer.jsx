@@ -53,7 +53,7 @@ export default function Transfer() {
             body: JSON.stringify({
                 "date": '2022-04',
                 "origin": origin,
-                "amount": parseInt(amount),
+                "amount": amount,
                 "destination": destination
             })
         }).then().catch(error => console.error('Error: ', error));
