@@ -72,7 +72,7 @@ export default function Income() {
                 "auth-token": localStorage.getItem("token"),
             },
             body: JSON.stringify({
-                "date": '2022-04',
+                "date": new Date(),
                 "reason": selectedReason,
                 "amount": enteredAmount,
                 "paymentMode": selectedPaymentMode,

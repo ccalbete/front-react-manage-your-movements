@@ -80,7 +80,7 @@ export default function Expense() {
                 "auth-token": localStorage.getItem("token"),
             },
             body: JSON.stringify({
-                "date": '2022-08',
+                "date": new Date(),
                 "place": selectedPlace,
                 "category": selectedCategory,
                 "amount": enteredAmount,
