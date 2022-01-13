@@ -26,9 +26,6 @@ const useStyles = makeStyles({
 export default function Income() {
     const classes = useStyles();
 
-    // const reasons = ["Gift", "regalo", "sobro mes anterior"];
-    // const paymentModes = ["Cash", "santander", "itau"];
-
     const [reasons, setReasons] = React.useState([]);
     const [paymentModes, setPaymentModes] = React.useState([]);
 
