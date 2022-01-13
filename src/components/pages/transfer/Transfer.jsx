@@ -66,7 +66,7 @@ export default function Transfer() {
                 "auth-token": localStorage.getItem("token"),
             },
             body: JSON.stringify({
-                "date": '2022-04',
+                "date": new Date(),
                 "origin": selectedOrigin,
                 "amount": enteredAmount,
                 "destination": selectedDestination
