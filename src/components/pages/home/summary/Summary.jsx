@@ -16,7 +16,7 @@ export default function Summary() {
 
                 setCategories(categoriesFromApi);
 
-            } catch (error) { }
+            } catch (error) { throw new Error(error); }
         } getCategories();
     }, []);
 

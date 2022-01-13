@@ -30,7 +30,7 @@ function FixedExpenses() {
 
                 setColumnToDo(fixedExpensesToDo);
                 setColumnDone(fixedExpensesDone)
-            } catch (error) { }
+            } catch (error) { throw new Error(error); }
         }
         getFixedExpenses();
     }, []);

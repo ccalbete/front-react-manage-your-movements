@@ -8,6 +8,9 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { makeStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
 import Header from './../../common/header/Header'
+import placeService from './../../../services/places'
+import categoryService from "./../../../services/categories"
+import paymentModeService from "./../../../services/paymentModes"
 
 const useStyles = makeStyles({
     title: {
@@ -24,30 +27,52 @@ const useStyles = makeStyles({
 export default function Expense() {
     const classes = useStyles();
 
-    const places = ["Supermarket Frog", "disco", "el tunel", "t inglesa"];
+    /* const places = ["Supermarket Frog", "disco", "el tunel", "t inglesa"];
     const categories = ["Transportation", "salidas", "farmacia"];
-    const paymentModes = ["Itau credit card", "Brou debit card", "itau"];
+    const paymentModes = ["Itau credit card", "Brou debit card", "itau"]; */
+    const [places, setPlaces] = React.useState([]);
+    const [categories, setCategories] = React.useState([]);
+    const [paymentModes, setPaymentModes] = React.useState([]);
 
-    const [place, setPlace] = React.useState('');
-    const [category, setCategory] = React.useState('');
-    const [amount, setAmount] = React.useState('');
-    const [paymentMode, setPaymentMode] = React.useState('');
+    const [selectedPlace, setSelectedPlace] = React.useState("");
+    const [selectedCategory, setSelectedCategory] = React.useState("");
+    const [enteredAmount, setEnteredAmount] = React.useState("");
+    const [selectedPaymentMode, setSelectedPaymentMode] = React.useState("");
+
+    React.useEffect(() => {
+        async function getData() {
+            try {
+                //Fetch
+                const placesFromApi = await placeService.getUserPlaces();
+                setPlaces(placesFromApi);
+
+                const categoriesFromApi = await categoryService.getUserCategories();
+                setCategories(categoriesFromApi);
+
+                const paymentModesFromApi = await paymentModeService.getUserPaymentModes();
+                setPaymentModes(paymentModesFromApi);
+
+            } catch (error) {
+                throw new Error(error);
+            }
+        } getData();
+    }, []);
 
 
     const handleChangePlace = (event) => {
-        setPlace(event.target.value);
+        setSelectedPlace(event.target.value);
     };
 
     const handleChangeCategory = (event) => {
-        setCategory(event.target.value);
+        setSelectedCategory(event.target.value);
     };
 
     const handleChangeAmount = (event) => {
-        setAmount(event.target.value);
+        setEnteredAmount(event.target.value);
     };
 
     const handleChangePaymentMode = (event) => {
-        setPaymentMode(event.target.value);
+        setSelectedPaymentMode(event.target.value);
     };
 
     const saveExpense = () => {
@@ -59,18 +84,18 @@ export default function Expense() {
             },
             body: JSON.stringify({
                 "date": '2022-08',
-                "place": place,
-                "category": category,
-                "amount": amount,
-                "paymentMode": paymentMode
+                "place": selectedPlace,
+                "category": selectedCategory,
+                "amount": enteredAmount,
+                "paymentMode": selectedPaymentMode
             })
         }).then().catch(error => console.error('Error: ', error));
 
         //reset form
-        setPlace('');
-        setCategory('');
-        setAmount('');
-        setPaymentMode('');
+        setSelectedPlace('');
+        setSelectedCategory('');
+        setEnteredAmount('');
+        setSelectedPaymentMode('');
     }
 
     return (
@@ -80,25 +105,25 @@ export default function Expense() {
             <FormControl sx={{ m: 1, minWidth: 150 }}>
                 <InputLabel id="placeLabel">Place</InputLabel>
                 <Select labelId="placeLabel"
-                    id="placeSelect" value={place} label="Place" onChange={handleChangePlace} >
+                    id="placeSelect" value={selectedPlace} label="Place" onChange={handleChangePlace} >
                     <MenuItem key={'empty'} />
                     {places.map(place => {
-                        return <MenuItem key={place} value={place}>{place}</MenuItem>
+                        return <MenuItem key={place.id} value={place.id}>{place.name}</MenuItem>
                     })}
                 </Select>
             </FormControl>
             <FormControl sx={{ m: 1, minWidth: 150 }}>
                 <InputLabel id="categoryLabel">Category*</InputLabel>
                 <Select labelId="categoryLabel"
-                    id="categorySelect" value={category} label="Category" onChange={handleChangeCategory} >
+                    id="categorySelect" value={selectedCategory} label="Category" onChange={handleChangeCategory} >
                     {categories.map(category => {
-                        return <MenuItem key={category} value={category}>{category}</MenuItem>
+                        return <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
                     })}
                 </Select>
             </FormControl>
 
 
-            <TextField type='number' label="Amount*" id="amountTextField" value={amount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
+            <TextField type='number' label="Amount*" id="amountTextField" value={enteredAmount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
                 InputProps={{
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                 }}
@@ -107,9 +132,9 @@ export default function Expense() {
             <FormControl sx={{ m: 1, minWidth: 160 }}>
                 <InputLabel id="paymentModeLabel">Payment mode*</InputLabel>
                 <Select labelId="paymentModeLabel"
-                    id="paymentModeSelect" value={paymentMode} label="Payment mode" onChange={handleChangePaymentMode} >
+                    id="paymentModeSelect" value={selectedPaymentMode} label="Payment mode" onChange={handleChangePaymentMode} >
                     {paymentModes.map(paymentMode => {
-                        return <MenuItem key={paymentMode} value={paymentMode}>{paymentMode}</MenuItem>
+                        return <MenuItem key={paymentMode.id} value={paymentMode.id}>{paymentMode.name}</MenuItem>
                     })}
                 </Select>
             </FormControl>
