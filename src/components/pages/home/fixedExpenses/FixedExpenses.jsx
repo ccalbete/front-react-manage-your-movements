@@ -19,26 +19,21 @@ function FixedExpenses() {
     const [columnToDo, setColumnToDo] = React.useState([]);
     const [columnDone, setColumnDone] = React.useState([]);
 
-    React.useEffect(async () => {
-        try {
-            //Fetch
-            const fixedExpenses = await categoryService.getUserFixedExpensesCategories();
+    React.useEffect(() => {
+        async function getFixedExpenses() {
+            try {
+                //Fetch
+                const fixedExpenses = await categoryService.getUserFixedExpensesCategories();
 
-            const fixedExpensesToDo = fixedExpenses.filter(fixedExpense => fixedExpense.spent === 0);
-            const fixedExpensesDone = fixedExpenses.filter(fixedExpense => fixedExpense.spent > 0);
+                const fixedExpensesToDo = fixedExpenses.filter(fixedExpense => fixedExpense.spent === 0);
+                const fixedExpensesDone = fixedExpenses.filter(fixedExpense => fixedExpense.spent > 0);
 
-            setColumnToDo(fixedExpensesToDo);
-            setColumnDone(fixedExpensesDone)
-
-
-            //Cambiamos el estado con las tareas del servidor
-        } catch (error) { }
+                setColumnToDo(fixedExpensesToDo);
+                setColumnDone(fixedExpensesDone)
+            } catch (error) { }
+        }
+        getFixedExpenses();
     }, []);
-
-    const toDos = ['Booking', 'Apartmaneto', 'otraCosapending'];
-
-
-    const dones = ['compras', 'comida', 'cama',];
 
     return (
         <>

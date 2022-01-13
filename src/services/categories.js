@@ -1,5 +1,7 @@
-const getUserFixedExpensesCategories = function() {
-    return fetch("http://localhost:3000/categories/" + localStorage.getItem("userId") + "/fixedExpenses", {
+const url = "http://localhost:3000/categories/";
+
+const getUserFixedExpensesCategories = function () {
+    return fetch(url + localStorage.getItem("userId") + "/fixedExpenses", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -12,6 +14,22 @@ const getUserFixedExpensesCategories = function() {
     }).catch(error => console.error('Error: ', error));
 }
 
-export default {
+function getUserNotFixedExpensesCategories() {
+    return fetch(url + localStorage.getItem("userId") + "/notFixedExpenses", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+        }
+    }).then(function (response) {
+        return response.json();
+    }).then(function (response) {
+        return response.userNotFixedExpensesCategories;
+    }).catch(error => console.error('Error: ', error));
+}
+
+const functionsToExport = {
     getUserFixedExpensesCategories,
-};
+    getUserNotFixedExpensesCategories
+}
+export default functionsToExport;
