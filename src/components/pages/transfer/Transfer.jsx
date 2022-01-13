@@ -8,6 +8,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { makeStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
 import Header from './../../common/header/Header'
+import paymentModeService from "./../../../services/paymentModes"
 
 const useStyles = makeStyles({
     title: {
@@ -24,23 +25,37 @@ const useStyles = makeStyles({
 export default function Transfer() {
     const classes = useStyles();
 
-    const paymentModes = ["Cash", "Brou debit card", "Santander debit card"];
+    const [paymentModes, setPaymentModes] = React.useState([])
 
-    const [amount, setAmount] = React.useState('');
-    const [origin, setOrigin] = React.useState('');
-    const [destination, setDestination] = React.useState('');
+    const [enteredAmount, setEnteredAmount] = React.useState('');
+    const [selectedOrigin, setSelectedOrigin] = React.useState('');
+    const [selectedDestination, setSelectedDestination] = React.useState('');
 
+    React.useEffect(() => {
+        async function getData() {
+            try {
+                //Fetch
+
+                const paymentModesFromApi = await paymentModeService.getUserDebitPaymentModes();
+                setPaymentModes(paymentModesFromApi);
+
+            } catch (error) {
+                throw new Error(error);
+            }
+        }
+        getData();
+    }, []);
 
     const handleChangeAmount = (event) => {
-        setAmount(event.target.value);
+        setEnteredAmount(event.target.value);
     };
 
     const handleChangeOrigin = (event) => {
-        setOrigin(event.target.value);
+        setSelectedOrigin(event.target.value);
     };
 
     const handleChangeDestination = (event) => {
-        setDestination(event.target.value);
+        setSelectedDestination(event.target.value);
     };
 
     const saveTransfer = () => {
@@ -52,16 +67,16 @@ export default function Transfer() {
             },
             body: JSON.stringify({
                 "date": '2022-04',
-                "origin": origin,
-                "amount": amount,
-                "destination": destination
+                "origin": selectedOrigin,
+                "amount": enteredAmount,
+                "destination": selectedDestination
             })
         }).then().catch(error => console.error('Error: ', error));
 
         //reset form
-        setAmount('');
-        setOrigin('');
-        setDestination('');
+        setEnteredAmount('');
+        setSelectedOrigin('');
+        setSelectedDestination('');
     }
 
     return (
@@ -72,15 +87,15 @@ export default function Transfer() {
             <FormControl sx={{ m: 1, minWidth: 160 }}>
                 <InputLabel id="originLabel">Origin*</InputLabel>
                 <Select labelId="originLabel"
-                    id="originSelect" value={origin} label="Origin" onChange={handleChangeOrigin} >
+                    id="originSelect" value={selectedOrigin} label="Origin" onChange={handleChangeOrigin} >
                     {paymentModes.map(paymentMode => {
-                        return <MenuItem key={paymentMode} value={paymentMode}>{paymentMode}</MenuItem>
+                        return <MenuItem key={paymentMode.id} value={paymentMode.id}>{paymentMode.name}</MenuItem>
                     })}
                 </Select>
             </FormControl>
 
 
-            <TextField type='number' label="Amount*" id="amountTextField" value={amount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
+            <TextField type='number' label="Amount*" id="amountTextField" value={enteredAmount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
                 InputProps={{
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                 }}
@@ -89,9 +104,9 @@ export default function Transfer() {
             <FormControl sx={{ m: 1, minWidth: 160 }}>
                 <InputLabel id="destinationLabel">Destination*</InputLabel>
                 <Select labelId="destinationLabel"
-                    id="destintationSelect" value={destination} label="Destination" onChange={handleChangeDestination} >
+                    id="destintationSelect" value={selectedDestination} label="Destination" onChange={handleChangeDestination} >
                     {paymentModes.map(paymentMode => {
-                        return <MenuItem key={paymentMode} value={paymentMode}>{paymentMode}</MenuItem>
+                        return <MenuItem key={paymentMode.id} value={paymentMode.id}>{paymentMode.name}</MenuItem>
                     })}
                 </Select>
             </FormControl>

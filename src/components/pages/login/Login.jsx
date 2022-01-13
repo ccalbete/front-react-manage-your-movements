@@ -78,6 +78,7 @@ function Login() {
         }).then(function (response) {
             if (response.success) {
                 localStorage.setItem("token", response.token);
+                localStorage.setItem("userId", response.userId);
             } else {
                 setShowErrorLoginFails(true);
                 return;

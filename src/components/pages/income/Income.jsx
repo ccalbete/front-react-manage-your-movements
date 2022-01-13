@@ -8,6 +8,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { makeStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
 import Header from '../../common/header/Header'
+import reasonService from "./../../../services/reasons"
+import paymentModeService from "./../../../services/paymentModes"
 
 const useStyles = makeStyles({
     title: {
@@ -24,25 +26,42 @@ const useStyles = makeStyles({
 export default function Income() {
     const classes = useStyles();
 
-    const reasons = ["Gift", "regalo", "sobro mes anterior"];
-    const paymentModes = ["Cash", "santander", "itau"];
+    const [reasons, setReasons] = React.useState([]);
+    const [paymentModes, setPaymentModes] = React.useState([]);
 
-    const [reason, setReason] = React.useState('');
-    const [amount, setAmount] = React.useState('');
-    const [paymentMode, setPaymentMode] = React.useState('');
 
+    const [selectedReason, setSelectedReason] = React.useState('');
+    const [enteredAmount, setEnteredAmount] = React.useState('');
+    const [selectedPaymentMode, setSelectedPaymentMode] = React.useState('');
+
+
+    React.useEffect(() => {
+        async function getData() {
+            try {
+                //Fetch
+                const reasonsFromApi = await reasonService.getUserReasons();
+                setReasons(reasonsFromApi);
+
+                const paymentModesFromApi = await paymentModeService.getUserDebitPaymentModes();
+                setPaymentModes(paymentModesFromApi);
+
+            } catch (error) {
+                throw new Error(error);
+            }
+        } getData();
+    }, []);
 
 
     const handleChangeReason = (event) => {
-        setReason(event.target.value);
+        setSelectedReason(event.target.value);
     };
 
     const handleChangeAmount = (event) => {
-        setAmount(event.target.value);
+        setEnteredAmount(event.target.value);
     };
 
     const handleChangePaymentMode = (event) => {
-        setPaymentMode(event.target.value);
+        setSelectedPaymentMode(event.target.value);
     };
 
     const saveIncome = () => {
@@ -54,16 +73,16 @@ export default function Income() {
             },
             body: JSON.stringify({
                 "date": '2022-04',
-                "reason": reason,
-                "amount": amount,
-                "paymentMode": paymentMode,
+                "reason": selectedReason,
+                "amount": enteredAmount,
+                "paymentMode": selectedPaymentMode,
             })
         }).then().catch(error => console.error('Error: ', error));
 
         //reset form 
-        setReason('');
-        setAmount('');
-        setPaymentMode('');
+        setSelectedReason('');
+        setEnteredAmount('');
+        setSelectedPaymentMode('');
     }
 
     return (
@@ -74,15 +93,15 @@ export default function Income() {
             <FormControl sx={{ m: 1, minWidth: 150 }}>
                 <InputLabel id="reasonLabel">Reason</InputLabel>
                 <Select labelId="reasonLabel"
-                    id="reasonSelect" value={reason} label="Reason" onChange={handleChangeReason} >
+                    id="reasonSelect" value={selectedReason} label="Reason" onChange={handleChangeReason} >
                     {reasons.map(reason => {
-                        return <MenuItem key={reason} value={reason}>{reason}</MenuItem>
+                        return <MenuItem key={reason.id} value={reason.id}>{reason.name}</MenuItem>
                     })}
                 </Select>
             </FormControl>
 
 
-            <TextField type='number' label="Amount*" id="amountTextField" value={amount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
+            <TextField type='number' label="Amount*" id="amountTextField" value={enteredAmount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
                 InputProps={{
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                 }}
@@ -91,9 +110,9 @@ export default function Income() {
             <FormControl sx={{ m: 1, minWidth: 160 }}>
                 <InputLabel id="paymentModeLabel">Payment mode*</InputLabel>
                 <Select labelId="paymentModeLabel"
-                    id="paymentModeSelect" value={paymentMode} label="Payment mode" onChange={handleChangePaymentMode} >
+                    id="paymentModeSelect" value={selectedPaymentMode} label="Payment mode" onChange={handleChangePaymentMode} >
                     {paymentModes.map(paymentMode => {
-                        return <MenuItem key={paymentMode} value={paymentMode}>{paymentMode}</MenuItem>
+                        return <MenuItem key={paymentMode.id} value={paymentMode.id}>{paymentMode.name}</MenuItem>
                     })}
                 </Select>
             </FormControl>

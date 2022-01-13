@@ -5,23 +5,26 @@ import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
 import { Grid } from '@material-ui/core';
+import Divider from '@mui/material/Divider';
 
-function ToDo({ listItems }) {
+function FixedExpenseItems({ itemsList }) {
 
     return (
         <>
             <Grid container justifyContent="center">
                 <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                     <List >
-                        {listItems.map(item => {
-                            return (<>
-                                <Divider />
-                                <ListItem disablePadding>
-                                    <ListItemText primary={item} />
-                                </ListItem>
-                            </>);
+                        {itemsList.map(item => {
+                            return (
+                                <div>
+
+                                    <ListItem key={item.id}>
+                                        <ListItemText primary={item.name} />
+                                    </ListItem>
+                                    <Divider />
+                                </div>
+                            );
                         })}
                     </List>
                 </Box>
@@ -30,4 +33,4 @@ function ToDo({ listItems }) {
     );
 }
 
-export default ToDo;
+export default FixedExpenseItems;
