@@ -1,7 +1,6 @@
 const url = "http://localhost:3000/categories/";
 const user = localStorage.getItem("userId");
 
-
 function getUserCategories() {
 
     return fetch(url + user, {

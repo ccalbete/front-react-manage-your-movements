@@ -15,7 +15,22 @@ function getUserPaymentModes() {
     }).catch(error => { throw new Error(error); });
 }
 
+function getUserDebitPaymentModes() {
+    return fetch(url + user + "/debit", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+        }
+    }).then(function (response) {
+        return response.json();
+    }).then(function (response) {
+        return response.debitPaymentModes;
+    }).catch(error => { throw new Error(error); });
+};
+
 const functionsToExport = {
-    getUserPaymentModes
+    getUserPaymentModes,
+    getUserDebitPaymentModes
 }
 export default functionsToExport;

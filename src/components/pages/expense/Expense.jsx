@@ -27,9 +27,6 @@ const useStyles = makeStyles({
 export default function Expense() {
     const classes = useStyles();
 
-    /* const places = ["Supermarket Frog", "disco", "el tunel", "t inglesa"];
-    const categories = ["Transportation", "salidas", "farmacia"];
-    const paymentModes = ["Itau credit card", "Brou debit card", "itau"]; */
     const [places, setPlaces] = React.useState([]);
     const [categories, setCategories] = React.useState([]);
     const [paymentModes, setPaymentModes] = React.useState([]);
@@ -89,7 +86,7 @@ export default function Expense() {
                 "amount": enteredAmount,
                 "paymentMode": selectedPaymentMode
             })
-        }).then().catch(error => console.error('Error: ', error));
+        }).then().catch(error => { throw new Error(error); });
 
         //reset form
         setSelectedPlace('');
