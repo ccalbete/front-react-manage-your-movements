@@ -12,6 +12,7 @@ import placeService from './../../../services/places'
 import categoryService from "./../../../services/categories"
 import paymentModeService from "./../../../services/paymentModes"
 import ErrorMessage from '../../common/ErrorMessage'
+import SuccessMessage from '../../common/SuccessMessage'
 
 const useStyles = makeStyles({
     title: {
@@ -38,7 +39,8 @@ export default function Expense() {
     const [selectedPaymentMode, setSelectedPaymentMode] = React.useState("");
 
     const [showErrorEmptyFields, setShowErrorEmptyFields] = React.useState(false);
-    const [showErrorSaveFails, setShowErrorSaveFails] = React.useState(false);
+    const [showErrorFailedSave, setShowErrorFailedSave] = React.useState(false);
+    const [showErrorSuccesfulSaving, setShowErrorSuccesfulSaving] = React.useState(false);
 
     React.useEffect(() => {
         async function getData() {
@@ -101,8 +103,10 @@ export default function Expense() {
                 "paymentMode": selectedPaymentMode,
             })
         }).then(function (response) {
-            if (response.status !== 201) {
-                setShowErrorSaveFails(true);
+            if (response.status === 201) {
+                setShowErrorSuccesfulSaving(true);
+            } else {
+                setShowErrorFailedSave(true);
                 return;
             }
         }).catch(error => { throw new Error(error); });
@@ -112,6 +116,7 @@ export default function Expense() {
         setSelectedCategory('');
         setEnteredAmount('');
         setSelectedPaymentMode('');
+        setShowErrorSuccesfulSaving(false);
     }
 
     return (
@@ -158,7 +163,8 @@ export default function Expense() {
             <Button variant="contained" color='primary' onClick={saveExpense} className={classes.saveButton}> Save </Button>
 
             {showErrorEmptyFields && <ErrorMessage> All fields are required </ErrorMessage>}
-            {showErrorSaveFails && <ErrorMessage> Save expense failed </ErrorMessage>}
+            {showErrorFailedSave && <ErrorMessage> Save expense failed </ErrorMessage>}
+            {showErrorSuccesfulSaving && <SuccessMessage> Successfully saved expense</SuccessMessage>}
         </>
     );
 }

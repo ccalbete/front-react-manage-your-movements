@@ -10,6 +10,7 @@ import { Button } from '@material-ui/core'
 import Header from './../../common/header/Header'
 import paymentModeService from "./../../../services/paymentModes"
 import ErrorMessage from '../../common/ErrorMessage'
+import SuccessMessage from '../../common/SuccessMessage'
 
 const useStyles = makeStyles({
     title: {
@@ -35,6 +36,7 @@ export default function Transfer() {
     const [showErrorEmptyFields, setShowErrorEmptyFields] = React.useState(false);
     const [showErrorFailedSave, setShowErrorFailedSave] = React.useState(false);
     const [showErrorOriginAndDestinationEquals, setShowErrorOriginAndDestinationEquals] = React.useState(false);
+    const [showErrorSuccesfulSaving, setShowErrorSuccesfulSaving] = React.useState(false);
 
     React.useEffect(() => {
         async function getData() {
@@ -92,7 +94,9 @@ export default function Transfer() {
                 "destination": selectedDestination
             })
         }).then(function (response) {
-            if (response.status !== 201) {
+            if (response.status === 201) {
+                setShowErrorSuccesfulSaving(true);
+            } else {
                 setShowErrorFailedSave(true);
                 return;
             }
@@ -102,6 +106,7 @@ export default function Transfer() {
         setEnteredAmount('');
         setSelectedOrigin('');
         setSelectedDestination('');
+        setShowErrorSuccesfulSaving(false);
     }
 
     return (
@@ -140,6 +145,7 @@ export default function Transfer() {
             {showErrorEmptyFields && <ErrorMessage> All fields are required </ErrorMessage>}
             {showErrorOriginAndDestinationEquals && <ErrorMessage> Origin and destination can't be the same </ErrorMessage>}
             {showErrorFailedSave && <ErrorMessage> Save transfer failed </ErrorMessage>}
+            {showErrorSuccesfulSaving && <SuccessMessage> Successfully saved transfer</SuccessMessage>}
         </>
     );
 }
