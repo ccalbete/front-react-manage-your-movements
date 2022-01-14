@@ -74,7 +74,7 @@ export default function Income() {
             body: JSON.stringify({
                 "date": new Date(),
                 "reason": selectedReason,
-                "amount": enteredAmount,
+                "amount": parseInt(enteredAmount),
                 "paymentMode": selectedPaymentMode,
             })
         }).then().catch(error => console.error('Error: ', error));

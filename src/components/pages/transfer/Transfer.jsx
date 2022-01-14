@@ -68,7 +68,7 @@ export default function Transfer() {
             body: JSON.stringify({
                 "date": new Date(),
                 "origin": selectedOrigin,
-                "amount": enteredAmount,
+                "amount": parseInt(enteredAmount),
                 "destination": selectedDestination
             })
         }).then().catch(error => console.error('Error: ', error));

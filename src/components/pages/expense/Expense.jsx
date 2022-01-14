@@ -11,6 +11,7 @@ import Header from './../../common/header/Header'
 import placeService from './../../../services/places'
 import categoryService from "./../../../services/categories"
 import paymentModeService from "./../../../services/paymentModes"
+import ErrorMessage from '../../common/ErrorMessage'
 
 const useStyles = makeStyles({
     title: {
@@ -36,6 +37,8 @@ export default function Expense() {
     const [enteredAmount, setEnteredAmount] = React.useState("");
     const [selectedPaymentMode, setSelectedPaymentMode] = React.useState("");
 
+    const [showErrorEmptyFields, setShowErrorEmptyFields] = React.useState(false);
+
     React.useEffect(() => {
         async function getData() {
             try {
@@ -58,21 +61,31 @@ export default function Expense() {
 
     const handleChangePlace = (event) => {
         setSelectedPlace(event.target.value);
+        setShowErrorEmptyFields(false);
     };
 
     const handleChangeCategory = (event) => {
         setSelectedCategory(event.target.value);
+        setShowErrorEmptyFields(false);
     };
 
     const handleChangeAmount = (event) => {
         setEnteredAmount(event.target.value);
+        setShowErrorEmptyFields(false);
     };
 
     const handleChangePaymentMode = (event) => {
         setSelectedPaymentMode(event.target.value);
+        setShowErrorEmptyFields(false);
     };
 
     const saveExpense = () => {
+
+        if (!enteredAmount || !selectedPaymentMode || !selectedCategory || !selectedPlace) {
+            setShowErrorEmptyFields(true);
+            return
+        }
+
         fetch("http://localhost:3000/expenses", {
             method: "POST",
             headers: {
@@ -83,8 +96,8 @@ export default function Expense() {
                 "date": new Date(),
                 "place": selectedPlace,
                 "category": selectedCategory,
-                "amount": enteredAmount,
-                "paymentMode": selectedPaymentMode
+                "amount": parseInt(enteredAmount),
+                "paymentMode": selectedPaymentMode,
             })
         }).then().catch(error => { throw new Error(error); });
 
@@ -100,7 +113,7 @@ export default function Expense() {
             <Header />
             <h1 className={classes.title}>Expense</h1>
             <FormControl sx={{ m: 1, minWidth: 150 }}>
-                <InputLabel id="placeLabel">Place</InputLabel>
+                <InputLabel id="placeLabel">Place*</InputLabel>
                 <Select labelId="placeLabel"
                     id="placeSelect" value={selectedPlace} label="Place" onChange={handleChangePlace} >
                     <MenuItem key={'empty'} />
@@ -137,6 +150,8 @@ export default function Expense() {
             </FormControl>
 
             <Button variant="contained" color='primary' onClick={saveExpense} className={classes.saveButton}> Save </Button>
+
+            {showErrorEmptyFields && <ErrorMessage> All fields are required </ErrorMessage>}
         </>
     );
 }
