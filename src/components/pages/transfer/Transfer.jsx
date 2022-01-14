@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
 import Header from './../../common/header/Header'
 import paymentModeService from "./../../../services/paymentModes"
+import ErrorMessage from '../../common/ErrorMessage'
 
 const useStyles = makeStyles({
     title: {
@@ -31,6 +32,8 @@ export default function Transfer() {
     const [selectedOrigin, setSelectedOrigin] = React.useState('');
     const [selectedDestination, setSelectedDestination] = React.useState('');
 
+    const [showErrorEmptyFields, setShowErrorEmptyFields] = React.useState(false);
+
     React.useEffect(() => {
         async function getData() {
             try {
@@ -48,17 +51,25 @@ export default function Transfer() {
 
     const handleChangeAmount = (event) => {
         setEnteredAmount(event.target.value);
+        setShowErrorEmptyFields(false);
     };
 
     const handleChangeOrigin = (event) => {
         setSelectedOrigin(event.target.value);
+        setShowErrorEmptyFields(false);
     };
 
     const handleChangeDestination = (event) => {
         setSelectedDestination(event.target.value);
+        setShowErrorEmptyFields(false);
     };
 
     const saveTransfer = () => {
+        if (!enteredAmount || !selectedOrigin || !selectedDestination) {
+            setShowErrorEmptyFields(true);
+            return
+        }
+
         fetch("http://localhost:3000/transfers", {
             method: "POST",
             headers: {
@@ -71,7 +82,7 @@ export default function Transfer() {
                 "amount": parseInt(enteredAmount),
                 "destination": selectedDestination
             })
-        }).then().catch(error => console.error('Error: ', error));
+        }).then().catch(error => { throw new Error(error); });
 
         //reset form
         setEnteredAmount('');
@@ -112,6 +123,7 @@ export default function Transfer() {
             </FormControl>
 
             <Button variant="contained" color='primary' onClick={saveTransfer} className={classes.saveButton}> Save </Button>
+            {showErrorEmptyFields && <ErrorMessage> All fields are required </ErrorMessage>}
         </>
     );
 }

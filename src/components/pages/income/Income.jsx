@@ -88,7 +88,7 @@ export default function Income() {
                 "amount": parseInt(enteredAmount),
                 "paymentMode": selectedPaymentMode,
             })
-        }).then().catch(error => console.error('Error: ', error));
+        }).then().catch(error => { throw new Error(error); });
 
         //reset form 
         setSelectedReason('');
