@@ -34,6 +34,7 @@ export default function Transfer() {
 
     const [showErrorEmptyFields, setShowErrorEmptyFields] = React.useState(false);
     const [showErrorFailedSave, setShowErrorFailedSave] = React.useState(false);
+    const [showErrorOriginAndDestinationEquals, setShowErrorOriginAndDestinationEquals] = React.useState(false);
 
     React.useEffect(() => {
         async function getData() {
@@ -58,16 +59,23 @@ export default function Transfer() {
     const handleChangeOrigin = (event) => {
         setSelectedOrigin(event.target.value);
         setShowErrorEmptyFields(false);
+        setShowErrorOriginAndDestinationEquals(false);
     };
 
     const handleChangeDestination = (event) => {
         setSelectedDestination(event.target.value);
         setShowErrorEmptyFields(false);
+        setShowErrorOriginAndDestinationEquals(false);
     };
 
     const saveTransfer = () => {
         if (!enteredAmount || !selectedOrigin || !selectedDestination) {
             setShowErrorEmptyFields(true);
+            return
+        }
+
+        if (selectedOrigin === selectedDestination) {
+            setShowErrorOriginAndDestinationEquals(true);
             return
         }
 
@@ -130,6 +138,7 @@ export default function Transfer() {
 
             <Button variant="contained" color='primary' onClick={saveTransfer} className={classes.saveButton}> Save </Button>
             {showErrorEmptyFields && <ErrorMessage> All fields are required </ErrorMessage>}
+            {showErrorOriginAndDestinationEquals && <ErrorMessage> Origin and destination can't be the same </ErrorMessage>}
             {showErrorFailedSave && <ErrorMessage> Save transfer failed </ErrorMessage>}
         </>
     );
