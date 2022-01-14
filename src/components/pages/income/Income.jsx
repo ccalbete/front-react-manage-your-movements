@@ -103,6 +103,7 @@ export default function Income() {
         setSelectedReason('');
         setEnteredAmount('');
         setSelectedPaymentMode('');
+        setShowErrorSuccesfulSaving(false);
     }
 
     return (

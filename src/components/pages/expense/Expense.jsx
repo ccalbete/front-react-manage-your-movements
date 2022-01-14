@@ -116,6 +116,7 @@ export default function Expense() {
         setSelectedCategory('');
         setEnteredAmount('');
         setSelectedPaymentMode('');
+        setShowErrorSuccesfulSaving(false);
     }
 
     return (
