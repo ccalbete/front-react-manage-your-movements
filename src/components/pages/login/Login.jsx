@@ -48,15 +48,11 @@ function Login() {
 
     //if some input is empty, show an error message, else submit
     const attemptLogin = async () => {
-        setShowErrorLoginFails(false);
 
-        //if at least one field is empty, show the error and go out the function
         if (!newValues.username || !newValues.password) {
             setShowErrorEmptyFields(true);
             return
         }
-
-
         // submit
         fetch("http://localhost:3000/users/login", {
             method: "POST",

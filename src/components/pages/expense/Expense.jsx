@@ -38,6 +38,7 @@ export default function Expense() {
     const [selectedPaymentMode, setSelectedPaymentMode] = React.useState("");
 
     const [showErrorEmptyFields, setShowErrorEmptyFields] = React.useState(false);
+    const [showErrorSaveFails, setShowErrorSaveFails] = React.useState(false);
 
     React.useEffect(() => {
         async function getData() {
@@ -99,7 +100,12 @@ export default function Expense() {
                 "amount": parseInt(enteredAmount),
                 "paymentMode": selectedPaymentMode,
             })
-        }).then().catch(error => { throw new Error(error); });
+        }).then(function (response) {
+            if (response.status !== 201) {
+                setShowErrorSaveFails(true);
+                return;
+            }
+        }).catch(error => { throw new Error(error); });
 
         //reset form
         setSelectedPlace('');
@@ -152,6 +158,7 @@ export default function Expense() {
             <Button variant="contained" color='primary' onClick={saveExpense} className={classes.saveButton}> Save </Button>
 
             {showErrorEmptyFields && <ErrorMessage> All fields are required </ErrorMessage>}
+            {showErrorSaveFails && <ErrorMessage> Save expense failed </ErrorMessage>}
         </>
     );
 }
