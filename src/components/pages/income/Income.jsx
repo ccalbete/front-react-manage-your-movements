@@ -11,6 +11,7 @@ import Header from '../../common/header/Header'
 import reasonService from "./../../../services/reasons"
 import paymentModeService from "./../../../services/paymentModes"
 import ErrorMessage from '../../common/ErrorMessage'
+import SuccessMessage from '../../common/SuccessMessage'
 
 const useStyles = makeStyles({
     title: {
@@ -37,6 +38,7 @@ export default function Income() {
 
     const [showErrorEmptyFields, setShowErrorEmptyFields] = React.useState(false);
     const [showErrorFailedSave, setShowErrorFailedSave] = React.useState(false);
+    const [showErrorSuccesfulSaving, setShowErrorSuccesfulSaving] = React.useState(false);
 
     React.useEffect(() => {
         async function getData() {
@@ -89,7 +91,9 @@ export default function Income() {
                 "paymentMode": selectedPaymentMode,
             })
         }).then(function (response) {
-            if (response.status !== 201) {
+            if (response.status === 201) {
+                setShowErrorSuccesfulSaving(true);
+            } else {
                 setShowErrorFailedSave(true);
                 return;
             }
@@ -136,6 +140,7 @@ export default function Income() {
             <Button variant="contained" color='primary' onClick={saveIncome} className={classes.saveButton}> Save </Button>
             {showErrorEmptyFields && <ErrorMessage> All fields are required </ErrorMessage>}
             {showErrorFailedSave && <ErrorMessage> Save income failed </ErrorMessage>}
+            {showErrorSuccesfulSaving && <SuccessMessage> Successfully saved income</SuccessMessage>}
         </>
     );
 }
