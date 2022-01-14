@@ -33,6 +33,7 @@ export default function Transfer() {
     const [selectedDestination, setSelectedDestination] = React.useState('');
 
     const [showErrorEmptyFields, setShowErrorEmptyFields] = React.useState(false);
+    const [showErrorFailedSave, setShowErrorFailedSave] = React.useState(false);
 
     React.useEffect(() => {
         async function getData() {
@@ -82,7 +83,12 @@ export default function Transfer() {
                 "amount": parseInt(enteredAmount),
                 "destination": selectedDestination
             })
-        }).then().catch(error => { throw new Error(error); });
+        }).then(function (response) {
+            if (response.status !== 201) {
+                setShowErrorFailedSave(true);
+                return;
+            }
+        }).catch(error => { throw new Error(error); });
 
         //reset form
         setEnteredAmount('');
@@ -124,6 +130,7 @@ export default function Transfer() {
 
             <Button variant="contained" color='primary' onClick={saveTransfer} className={classes.saveButton}> Save </Button>
             {showErrorEmptyFields && <ErrorMessage> All fields are required </ErrorMessage>}
+            {showErrorFailedSave && <ErrorMessage> Save transfer failed </ErrorMessage>}
         </>
     );
 }

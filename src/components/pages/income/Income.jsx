@@ -36,7 +36,7 @@ export default function Income() {
     const [selectedPaymentMode, setSelectedPaymentMode] = React.useState('');
 
     const [showErrorEmptyFields, setShowErrorEmptyFields] = React.useState(false);
-    const [showErrorSaveFails, setShowErrorSaveFails] = React.useState(false);
+    const [showErrorFailedSave, setShowErrorFailedSave] = React.useState(false);
 
     React.useEffect(() => {
         async function getData() {
@@ -90,7 +90,7 @@ export default function Income() {
             })
         }).then(function (response) {
             if (response.status !== 201) {
-                setShowErrorSaveFails(true);
+                setShowErrorFailedSave(true);
                 return;
             }
         }).catch(error => { throw new Error(error); });
@@ -135,7 +135,7 @@ export default function Income() {
 
             <Button variant="contained" color='primary' onClick={saveIncome} className={classes.saveButton}> Save </Button>
             {showErrorEmptyFields && <ErrorMessage> All fields are required </ErrorMessage>}
-            {showErrorSaveFails && <ErrorMessage> Save income failed </ErrorMessage>}
+            {showErrorFailedSave && <ErrorMessage> Save income failed </ErrorMessage>}
         </>
     );
 }
