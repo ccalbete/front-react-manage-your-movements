@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import { PersonSharp, LockSharp } from '@mui/icons-material';
 import { InputAdornment } from '@mui/material/';
 import ErrorMessage from '../../common/ErrorMessage'
+import { useNavigate } from 'react-router-dom'
+import routePaths from './../../../routes/routePaths'
 
 
 const useStyles = makeStyles({
@@ -23,6 +25,8 @@ const useStyles = makeStyles({
 });
 
 function Login() {
+
+    const navigate = useNavigate();
 
     const classes = useStyles();
 
@@ -69,6 +73,7 @@ function Login() {
             if (response.success) {
                 localStorage.setItem("token", response.token);
                 localStorage.setItem("userId", response.userId);
+                navigate(routePaths.home);
             } else {
                 setShowErrorLoginFails(true);
                 return;

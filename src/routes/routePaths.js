@@ -1,9 +1,9 @@
 const routePaths = {
-    home: '/',
+    home: '/home',
     expense: '/expense',
     income: '/income',
     transfer: '/transfer',
-    login: '/login',
+    login: '/',
 }
 
 export default routePaths;
