@@ -11,7 +11,7 @@ function App() {
     return (
         <>
             <Login />
-            <Expense />
+            <Transfer />
             <Footer />
         </>);
 }

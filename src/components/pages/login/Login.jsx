@@ -26,9 +26,6 @@ function Login() {
 
     const classes = useStyles();
 
-    // let response = false;
-
-
     const [showErrorEmptyFields, setShowErrorEmptyFields] = useState(false);
     const [showErrorLoginFails, setShowErrorLoginFails] = useState(false);
 
@@ -37,9 +34,6 @@ function Login() {
         username: '',
         password: '',
     });
-
-
-    // const [redirectHome, setRedirectHome] = useState(false);
 
     //when the input is filled, the value is stored in newValues.inputName and the input errors is reset
     const handleChangeUsername = (e) => {
@@ -83,7 +77,7 @@ function Login() {
                 setShowErrorLoginFails(true);
                 return;
             }
-        }).catch(error => console.error('Error: ', error));
+        }).catch(error => { throw new Error(error); });
 
         // reset form
         setNewValues({

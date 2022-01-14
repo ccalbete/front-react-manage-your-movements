@@ -10,6 +10,7 @@ import { Button } from '@material-ui/core'
 import Header from '../../common/header/Header'
 import reasonService from "./../../../services/reasons"
 import paymentModeService from "./../../../services/paymentModes"
+import ErrorMessage from '../../common/ErrorMessage'
 
 const useStyles = makeStyles({
     title: {
@@ -34,6 +35,8 @@ export default function Income() {
     const [enteredAmount, setEnteredAmount] = React.useState('');
     const [selectedPaymentMode, setSelectedPaymentMode] = React.useState('');
 
+    const [showErrorEmptyFields, setShowErrorEmptyFields] = React.useState(false);
+
 
     React.useEffect(() => {
         async function getData() {
@@ -54,17 +57,25 @@ export default function Income() {
 
     const handleChangeReason = (event) => {
         setSelectedReason(event.target.value);
+        setShowErrorEmptyFields(false);
     };
 
     const handleChangeAmount = (event) => {
         setEnteredAmount(event.target.value);
+        setShowErrorEmptyFields(false);
     };
 
     const handleChangePaymentMode = (event) => {
         setSelectedPaymentMode(event.target.value);
+        setShowErrorEmptyFields(false);
     };
 
     const saveIncome = () => {
+        if (!selectedReason || !enteredAmount || !selectedPaymentMode) {
+            setShowErrorEmptyFields(true);
+            return
+        }
+
         fetch("http://localhost:3000/incomes", {
             method: "POST",
             headers: {
@@ -74,10 +85,10 @@ export default function Income() {
             body: JSON.stringify({
                 "date": new Date(),
                 "reason": selectedReason,
-                "amount": enteredAmount,
+                "amount": parseInt(enteredAmount),
                 "paymentMode": selectedPaymentMode,
             })
-        }).then().catch(error => console.error('Error: ', error));
+        }).then().catch(error => { throw new Error(error); });
 
         //reset form 
         setSelectedReason('');
@@ -91,7 +102,7 @@ export default function Income() {
             <h1 className={classes.title}>Income</h1>
 
             <FormControl sx={{ m: 1, minWidth: 150 }}>
-                <InputLabel id="reasonLabel">Reason</InputLabel>
+                <InputLabel id="reasonLabel">Reason*</InputLabel>
                 <Select labelId="reasonLabel"
                     id="reasonSelect" value={selectedReason} label="Reason" onChange={handleChangeReason} >
                     {reasons.map(reason => {
@@ -118,6 +129,7 @@ export default function Income() {
             </FormControl>
 
             <Button variant="contained" color='primary' onClick={saveIncome} className={classes.saveButton}> Save </Button>
+            {showErrorEmptyFields && <ErrorMessage> All fields are required </ErrorMessage>}
         </>
     );
 }
