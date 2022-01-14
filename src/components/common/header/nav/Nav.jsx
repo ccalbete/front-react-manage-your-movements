@@ -12,10 +12,35 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import ManageAccountsSharpIcon from '@mui/icons-material/ManageAccountsSharp';
+import { Routes, Route, Link, NavLink } from "react-router-dom";
+import routePaths from "./../../../../routes/routePaths"
+import { makeStyles } from '@material-ui/core/styles'
+import { useNavigate } from 'react-router-dom'
 
-const pages = ['Home', 'Expense', 'Income', 'Transfer'];
+const useStyles = makeStyles({
+  navButton: {
+    padding: '40px',
+    textDecoration: 'none'
+  },
+  logoutButton: {
+    padding: '5px 10px',
+    textDecoration: 'none'
+  }
+});
+
+const pages = [
+  { title: "Home", route: routePaths.home },
+  { title: "Expense", route: routePaths.expense },
+  { title: "Income", route: routePaths.income },
+  { title: "Transfer", route: routePaths.transfer }
+];
+
 
 const Nav = () => {
+
+  const navigate = useNavigate();
+  const classes = useStyles();
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -25,14 +50,17 @@ const Nav = () => {
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogout = () => {
+    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('userId');
+  }
 
   return (
     <AppBar position="static">
@@ -76,8 +104,8 @@ const Nav = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.title} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page.title}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -93,19 +121,26 @@ const Nav = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.title}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
+                sx={{ my: 2, color: 'white', display: 'block' }} >
+                <NavLink to={page.route} className={classes.navButton}
+                  style={({ isActive }) => isActive
+                    ? {
+                      color: '#301997',
+                      fontWeight: 'bold'
+
+                    }
+                    : { color: '#fff', }
+                  }> {page.title} </NavLink>
               </Button>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <ManageAccountsSharpIcon fontSize="large"/>
-              </IconButton>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <ManageAccountsSharpIcon fontSize="large" />
+            </IconButton>
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -122,10 +157,10 @@ const Nav = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-             
-                <MenuItem  onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Log out</Typography>
-                </MenuItem>
+
+              <MenuItem onClick={handleCloseNavMenu}>
+                <NavLink to={routePaths.login} className={classes.logoutButton} onClick={handleLogout}> Log out </NavLink>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

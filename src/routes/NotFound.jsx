@@ -7,8 +7,9 @@ const NotFound = () => {
     return (
         <>
             <span >404 Not Found</span>
-            <Link to={routePaths.login} >
-                Go back to login
+            <br />
+            <Link to={routePaths.home} >
+                Go back to home
             </Link>
         </>
     )

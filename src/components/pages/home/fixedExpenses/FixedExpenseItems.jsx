@@ -17,9 +17,8 @@ function FixedExpenseItems({ itemsList }) {
                     <List >
                         {itemsList.map(item => {
                             return (
-                                <div>
-
-                                    <ListItem key={item.id}>
+                                <div key={item.id}>
+                                    <ListItem >
                                         <ListItemText primary={item.name} />
                                     </ListItem>
                                     <Divider />
