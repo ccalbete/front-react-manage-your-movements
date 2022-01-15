@@ -12,8 +12,6 @@ const NotFound = () => {
                 <Link to={routePaths.login} >
                     Go back to login
                 </Link> </p>
-
-
         </>
     )
 };
