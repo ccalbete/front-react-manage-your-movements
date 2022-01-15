@@ -5,16 +5,9 @@ import Box from '@mui/material/Box';
 import Header from './../../common/header/Header'
 import Summary from "./fixedExpenses/FixedExpenses"
 import FixedExpenses from './summary/Summary';
-import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles({
-    itemsSpace: {
-        marginTop: '180px'
-    }
-});
 
 function Home() {
-    const classes = useStyles();
 
     return (
         <>
@@ -23,10 +16,10 @@ function Home() {
                     <Grid item xs={12}>
                         <Header />
                     </Grid>
-                    <Grid item xs={6} className={classes.itemsSpace}>
+                    <Grid item xs={6} style={{ marginTop: "100px" }}>
                         <FixedExpenses />
                     </Grid>
-                    <Grid item xs={6} className={classes.itemsSpace}>
+                    <Grid item xs={6} style={{ marginTop: "100px" }}>
                         <Summary />
                     </Grid>
                 </Grid>

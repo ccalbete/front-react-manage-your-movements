@@ -112,34 +112,35 @@ export default function Transfer() {
         <>
             <Header />
             <h1 className={classes.title}>Transfer</h1>
+            <div style={{ marginLeft: "650px", marginTop: "100px" }}>
+                <FormControl sx={{ m: 1, minWidth: 160 }}>
+                    <InputLabel id="originLabel">Origin*</InputLabel>
+                    <Select labelId="originLabel"
+                        id="originSelect" value={selectedOrigin} label="Origin" onChange={handleChangeOrigin} >
+                        {paymentModes.map(paymentMode => {
+                            return <MenuItem key={paymentMode.id} value={paymentMode.id}>{paymentMode.name}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
 
-            <FormControl sx={{ m: 1, minWidth: 160 }}>
-                <InputLabel id="originLabel">Origin*</InputLabel>
-                <Select labelId="originLabel"
-                    id="originSelect" value={selectedOrigin} label="Origin" onChange={handleChangeOrigin} >
-                    {paymentModes.map(paymentMode => {
-                        return <MenuItem key={paymentMode.id} value={paymentMode.id}>{paymentMode.name}</MenuItem>
-                    })}
-                </Select>
-            </FormControl>
+                <TextField type='number' label="Amount*" id="amountTextField" value={enteredAmount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
+                    InputProps={{
+                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                    }}
+                />
 
-            <TextField type='number' label="Amount*" id="amountTextField" value={enteredAmount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
-                InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                }}
-            />
+                <FormControl sx={{ m: 1, minWidth: 160 }}>
+                    <InputLabel id="destinationLabel">Destination*</InputLabel>
+                    <Select labelId="destinationLabel"
+                        id="destintationSelect" value={selectedDestination} label="Destination" onChange={handleChangeDestination} >
+                        {paymentModes.map(paymentMode => {
+                            return <MenuItem key={paymentMode.id} value={paymentMode.id}>{paymentMode.name}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
 
-            <FormControl sx={{ m: 1, minWidth: 160 }}>
-                <InputLabel id="destinationLabel">Destination*</InputLabel>
-                <Select labelId="destinationLabel"
-                    id="destintationSelect" value={selectedDestination} label="Destination" onChange={handleChangeDestination} >
-                    {paymentModes.map(paymentMode => {
-                        return <MenuItem key={paymentMode.id} value={paymentMode.id}>{paymentMode.name}</MenuItem>
-                    })}
-                </Select>
-            </FormControl>
-
-            <Button variant="contained" color='primary' onClick={saveTransfer} className={classes.saveButton}> Save </Button>
+                <Button variant="contained" color='primary' onClick={saveTransfer} className={classes.saveButton} style={{ backgroundColor: "#1c73d3" }}> Save </Button>
+            </div>
             {showErrorEmptyFields && <ErrorMessage> All fields are required </ErrorMessage>}
             {showErrorOriginAndDestinationEquals && <ErrorMessage> Origin and destination can't be the same </ErrorMessage>}
             {showErrorFailedSave && <ErrorMessage> Save transfer failed </ErrorMessage>}

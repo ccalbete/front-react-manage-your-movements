@@ -16,7 +16,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
   navButton: {
-    padding: '40px',
+    padding: '20px',
     textDecoration: 'none'
   },
   logoutButton: {
@@ -59,16 +59,8 @@ const Nav = () => {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" style={{ maxHeight: "70px" }}>
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }} >
-            LOGO
-          </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -111,7 +103,6 @@ const Nav = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
