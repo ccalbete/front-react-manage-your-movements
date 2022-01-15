@@ -42,7 +42,6 @@ export default function Transfer() {
         async function getData() {
             try {
                 //Fetch
-
                 const paymentModesFromApi = await paymentModeService.getUserDebitPaymentModes();
                 setPaymentModes(paymentModesFromApi);
 
@@ -123,7 +122,6 @@ export default function Transfer() {
                     })}
                 </Select>
             </FormControl>
-
 
             <TextField type='number' label="Amount*" id="amountTextField" value={enteredAmount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
                 InputProps={{

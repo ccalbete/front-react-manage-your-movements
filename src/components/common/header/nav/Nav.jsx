@@ -7,15 +7,12 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import ManageAccountsSharpIcon from '@mui/icons-material/ManageAccountsSharp';
-import { Routes, Route, Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import routePaths from "./../../../../routes/routePaths"
 import { makeStyles } from '@material-ui/core/styles'
-import { useNavigate } from 'react-router-dom'
 
 const useStyles = makeStyles({
   navButton: {
@@ -37,8 +34,6 @@ const pages = [
 
 
 const Nav = () => {
-
-  const navigate = useNavigate();
   const classes = useStyles();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);

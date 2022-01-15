@@ -11,8 +11,6 @@ const useStyles = makeStyles({
     }
 });
 
-
-
 function Category({ title, amount }) {
     const classes = useStyles();
     return (

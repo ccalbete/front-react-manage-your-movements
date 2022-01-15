@@ -24,13 +24,11 @@ const useStyles = makeStyles({
     }
 });
 
-
 export default function Income() {
     const classes = useStyles();
 
     const [reasons, setReasons] = React.useState([]);
     const [paymentModes, setPaymentModes] = React.useState([]);
-
 
     const [selectedReason, setSelectedReason] = React.useState('');
     const [enteredAmount, setEnteredAmount] = React.useState('');
@@ -121,12 +119,10 @@ export default function Income() {
                 </Select>
             </FormControl>
 
-
             <TextField type='number' label="Amount*" id="amountTextField" value={enteredAmount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
                 InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                }}
-            />
+                    startAdornment: <InputAdornment position="start">$</InputAdornment>
+                }} />
 
             <FormControl sx={{ m: 1, minWidth: 160 }}>
                 <InputLabel id="paymentModeLabel">Payment mode*</InputLabel>
