@@ -113,7 +113,7 @@ function Login() {
                 </Grid>
 
                 <Grid item>
-                    <Button variant="outlined" onClick={attemptLogin} className={classes.confirmButton}> Confirm </Button>
+                    <Button variant="outlined" onClick={attemptLogin} className={classes.confirmButton} style={{ backgroundColor: "#1c73d3", color: "white" }}> Confirm </Button>
                 </Grid>
 
                 <Grid item>

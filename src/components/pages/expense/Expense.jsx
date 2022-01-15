@@ -123,45 +123,46 @@ export default function Expense() {
         <>
             <Header />
             <h1 className={classes.title}>Expense</h1>
-            <FormControl sx={{ m: 1, minWidth: 150 }}>
-                <InputLabel id="placeLabel">Place*</InputLabel>
-                <Select labelId="placeLabel"
-                    id="placeSelect" value={selectedPlace} label="Place" onChange={handleChangePlace} >
-                    <MenuItem key={'empty'} />
-                    {places.map(place => {
-                        return <MenuItem key={place.id} value={place.id}>{place.name}</MenuItem>
-                    })}
-                </Select>
-            </FormControl>
-            <FormControl sx={{ m: 1, minWidth: 150 }}>
-                <InputLabel id="categoryLabel">Category*</InputLabel>
-                <Select labelId="categoryLabel"
-                    id="categorySelect" value={selectedCategory} label="Category" onChange={handleChangeCategory} >
-                    {categories.map(category => {
-                        return <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
-                    })}
-                </Select>
-            </FormControl>
+            <div style={{ marginLeft: "550px", marginTop: "100px" }}>
+                <FormControl sx={{ m: 1, minWidth: 150 }}>
+                    <InputLabel id="placeLabel">Place*</InputLabel>
+                    <Select labelId="placeLabel"
+                        id="placeSelect" value={selectedPlace} label="Place" onChange={handleChangePlace} >
+                        <MenuItem key={'empty'} />
+                        {places.map(place => {
+                            return <MenuItem key={place.id} value={place.id}>{place.name}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
+                <FormControl sx={{ m: 1, minWidth: 150 }}>
+                    <InputLabel id="categoryLabel">Category*</InputLabel>
+                    <Select labelId="categoryLabel"
+                        id="categorySelect" value={selectedCategory} label="Category" onChange={handleChangeCategory} >
+                        {categories.map(category => {
+                            return <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
 
 
-            <TextField type='number' label="Amount*" id="amountTextField" value={enteredAmount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
-                InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                }}
-            />
+                <TextField type='number' label="Amount*" id="amountTextField" value={enteredAmount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
+                    InputProps={{
+                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                    }}
+                />
 
-            <FormControl sx={{ m: 1, minWidth: 160 }}>
-                <InputLabel id="paymentModeLabel">Payment mode*</InputLabel>
-                <Select labelId="paymentModeLabel"
-                    id="paymentModeSelect" value={selectedPaymentMode} label="Payment mode" onChange={handleChangePaymentMode} >
-                    {paymentModes.map(paymentMode => {
-                        return <MenuItem key={paymentMode.id} value={paymentMode.id}>{paymentMode.name}</MenuItem>
-                    })}
-                </Select>
-            </FormControl>
+                <FormControl sx={{ m: 1, minWidth: 160 }}>
+                    <InputLabel id="paymentModeLabel">Payment mode*</InputLabel>
+                    <Select labelId="paymentModeLabel"
+                        id="paymentModeSelect" value={selectedPaymentMode} label="Payment mode" onChange={handleChangePaymentMode} >
+                        {paymentModes.map(paymentMode => {
+                            return <MenuItem key={paymentMode.id} value={paymentMode.id}>{paymentMode.name}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
 
-            <Button variant="contained" color='primary' onClick={saveExpense} className={classes.saveButton}> Save </Button>
-
+                <Button variant="contained" color='primary' onClick={saveExpense} className={classes.saveButton} style={{ backgroundColor: "#1c73d3" }}> Save </Button>
+            </div>
             {showErrorEmptyFields && <ErrorMessage> All fields are required </ErrorMessage>}
             {showErrorFailedSave && <ErrorMessage> Save expense failed </ErrorMessage>}
             {showErrorSuccesfulSaving && <SuccessMessage> Successfully saved expense</SuccessMessage>}

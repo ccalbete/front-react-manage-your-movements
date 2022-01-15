@@ -108,33 +108,34 @@ export default function Income() {
         <>
             <Header />
             <h1 className={classes.title}>Income</h1>
+            <div style={{ marginLeft: "650px", marginTop: "70px" }}>
+                <FormControl sx={{ m: 1, minWidth: 150 }}>
+                    <InputLabel id="reasonLabel">Reason*</InputLabel>
+                    <Select labelId="reasonLabel"
+                        id="reasonSelect" value={selectedReason} label="Reason" onChange={handleChangeReason} >
+                        {reasons.map(reason => {
+                            return <MenuItem key={reason.id} value={reason.id}>{reason.name}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
 
-            <FormControl sx={{ m: 1, minWidth: 150 }}>
-                <InputLabel id="reasonLabel">Reason*</InputLabel>
-                <Select labelId="reasonLabel"
-                    id="reasonSelect" value={selectedReason} label="Reason" onChange={handleChangeReason} >
-                    {reasons.map(reason => {
-                        return <MenuItem key={reason.id} value={reason.id}>{reason.name}</MenuItem>
-                    })}
-                </Select>
-            </FormControl>
+                <TextField type='number' label="Amount*" id="amountTextField" value={enteredAmount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
+                    InputProps={{
+                        startAdornment: <InputAdornment position="start">$</InputAdornment>
+                    }} />
 
-            <TextField type='number' label="Amount*" id="amountTextField" value={enteredAmount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
-                InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>
-                }} />
+                <FormControl sx={{ m: 1, minWidth: 160 }}>
+                    <InputLabel id="paymentModeLabel">Payment mode*</InputLabel>
+                    <Select labelId="paymentModeLabel"
+                        id="paymentModeSelect" value={selectedPaymentMode} label="Payment mode" onChange={handleChangePaymentMode} >
+                        {paymentModes.map(paymentMode => {
+                            return <MenuItem key={paymentMode.id} value={paymentMode.id}>{paymentMode.name}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
 
-            <FormControl sx={{ m: 1, minWidth: 160 }}>
-                <InputLabel id="paymentModeLabel">Payment mode*</InputLabel>
-                <Select labelId="paymentModeLabel"
-                    id="paymentModeSelect" value={selectedPaymentMode} label="Payment mode" onChange={handleChangePaymentMode} >
-                    {paymentModes.map(paymentMode => {
-                        return <MenuItem key={paymentMode.id} value={paymentMode.id}>{paymentMode.name}</MenuItem>
-                    })}
-                </Select>
-            </FormControl>
-
-            <Button variant="contained" color='primary' onClick={saveIncome} className={classes.saveButton}> Save </Button>
+                <Button variant="contained" color='primary' onClick={saveIncome} className={classes.saveButton} style={{ backgroundColor: "#1c73d3" }}> Save </Button>
+            </div>
             {showErrorEmptyFields && <ErrorMessage> All fields are required </ErrorMessage>}
             {showErrorFailedSave && <ErrorMessage> Save income failed </ErrorMessage>}
             {showErrorSuccesfulSaving && <SuccessMessage> Successfully saved income</SuccessMessage>}
