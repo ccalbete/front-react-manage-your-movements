@@ -44,7 +44,6 @@ function getUserNotFixedExpensesCategories() {
     }).catch(error => { throw new Error(error);});
 }
 
-
 const functionsToExport = {
     getUserCategories,
     getUserFixedExpensesCategories,

@@ -10,12 +10,7 @@ import Paper from '@mui/material/Paper';
 import FixedExpenseItems from './FixedExpenseItems';
 import categoryService from "./../../../../services/categories"
 
-
-
-
 function FixedExpenses() {
-
-
     const [columnToDo, setColumnToDo] = React.useState([]);
     const [columnDone, setColumnDone] = React.useState([]);
 
@@ -40,7 +35,6 @@ function FixedExpenses() {
             <TableContainer component={Paper}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
-
                         <TableRow>
                             <TableCell align="center" colSpan={2}>
                                 FixedExpenses
@@ -50,20 +44,16 @@ function FixedExpenses() {
                             <TableCell align="center" colSpan={1} >TO DO</TableCell>
                             <TableCell align="center" colSpan={1}> DONE</TableCell>
                         </TableRow>
-
                     </TableHead>
 
                     <TableBody>
-
                         <TableRow component="th" scope="row" align="center" colSpan={1}>
                             <TableCell align="center" colSpan={1}>  <FixedExpenseItems itemsList={columnToDo} /> </TableCell>
                             <TableCell align="center" colSpan={1}> <FixedExpenseItems itemsList={columnDone} /> </TableCell>
                         </TableRow>
-
                     </TableBody>
                 </Table>
             </TableContainer >
-
         </>);
 }
 
