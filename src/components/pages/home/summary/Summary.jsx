@@ -12,7 +12,7 @@ export default function Summary() {
         async function getCategories() {
             try {
                 //Fetch
-                const categoriesFromApi = await categoryService.getUserNotFixedExpensesCategories();
+                const categoriesFromApi = await categoryService.getUserNotFixedExpensesCategoriesPesos();
 
                 setCategories(categoriesFromApi);
 
@@ -25,7 +25,7 @@ export default function Summary() {
         <>
             <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
                 {categories.map(category =>
-                    <Grid item xs={2} sm={4} md={4} key={category.id} >  <Category title={category.name} amount={category.spent} /> </Grid>
+                    <Grid item xs={2} sm={4} md={4} key={category.name} >  <Category title={category.name} amount={category.sum} /> </Grid>
                 )}
             </Grid>
         </>
