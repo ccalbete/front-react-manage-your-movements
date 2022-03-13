@@ -7,10 +7,15 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import { makeStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
+import Tooltip from '@mui/material/Tooltip';
 import Header from './../../common/header/Header'
 import paymentModeService from "./../../../services/paymentModes"
 import ErrorMessage from '../../common/ErrorMessage'
 import SuccessMessage from '../../common/SuccessMessage'
+
+
+
+
 
 const useStyles = makeStyles({
     title: {
@@ -29,14 +34,15 @@ export default function Transfer() {
 
     const [paymentModes, setPaymentModes] = React.useState([])
 
-    const [enteredAmount, setEnteredAmount] = React.useState('');
+    const [originAmount, setOriginAmount] = React.useState('');
+    const [destinationAmount, setDestinationAmount] = React.useState('');
     const [selectedOrigin, setSelectedOrigin] = React.useState('');
     const [selectedDestination, setSelectedDestination] = React.useState('');
 
     const [showErrorEmptyFields, setShowErrorEmptyFields] = React.useState(false);
     const [showErrorFailedSave, setShowErrorFailedSave] = React.useState(false);
     const [showErrorOriginAndDestinationEquals, setShowErrorOriginAndDestinationEquals] = React.useState(false);
-    const [showErrorSuccesfulSaving, setShowErrorSuccesfulSaving] = React.useState(false);
+    const [showSuccesfulSaving, setShowSuccesfulSaving] = React.useState(false);
 
     React.useEffect(() => {
         async function getData() {
@@ -52,8 +58,13 @@ export default function Transfer() {
         getData();
     }, []);
 
-    const handleChangeAmount = (event) => {
-        setEnteredAmount(event.target.value);
+    const handleChangeOriginAmount = (event) => {
+        setOriginAmount(event.target.value);
+        setShowErrorEmptyFields(false);
+    };
+
+    const handleChangeDestinationAmount = (event) => {
+        setDestinationAmount(event.target.value);
         setShowErrorEmptyFields(false);
     };
 
@@ -70,7 +81,7 @@ export default function Transfer() {
     };
 
     const saveTransfer = () => {
-        if (!enteredAmount || !selectedOrigin || !selectedDestination) {
+        if (!originAmount || !selectedOrigin || !selectedDestination) {
             setShowErrorEmptyFields(true);
             return
         }
@@ -89,12 +100,13 @@ export default function Transfer() {
             body: JSON.stringify({
                 "date": new Date(),
                 "origin": selectedOrigin,
-                "amount": parseInt(enteredAmount),
-                "destination": selectedDestination
+                "originAmount": parseInt(originAmount),
+                "destination": selectedDestination,
+                "destinationAmount": parseInt(destinationAmount),
             })
         }).then(function (response) {
             if (response.status === 201) {
-                setShowErrorSuccesfulSaving(true);
+                setShowSuccesfulSaving(true);
             } else {
                 setShowErrorFailedSave(true);
                 return;
@@ -102,10 +114,11 @@ export default function Transfer() {
         }).catch(error => { throw new Error(error); });
 
         //reset form
-        setEnteredAmount('');
+        setOriginAmount('');
+        setDestinationAmount('');
         setSelectedOrigin('');
         setSelectedDestination('');
-        setShowErrorSuccesfulSaving(false);
+        setShowSuccesfulSaving(false);
     }
 
     return (
@@ -122,12 +135,13 @@ export default function Transfer() {
                         })}
                     </Select>
                 </FormControl>
-
-                <TextField type='number' label="Amount*" id="amountTextField" value={enteredAmount} sx={{ m: 1, width: 120 }} onChange={handleChangeAmount}
-                    InputProps={{
-                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                    }}
-                />
+                <Tooltip title="Origin amount">
+                    <TextField type='number' label="Amount*" id="amountTextField" value={originAmount} sx={{ m: 1, width: 120 }} onChange={handleChangeOriginAmount}
+                        InputProps={{
+                            startAdornment: <InputAdornment position="start"></InputAdornment>,
+                        }}
+                    />
+                </Tooltip>
 
                 <FormControl sx={{ m: 1, minWidth: 160 }}>
                     <InputLabel id="destinationLabel">Destination*</InputLabel>
@@ -138,13 +152,20 @@ export default function Transfer() {
                         })}
                     </Select>
                 </FormControl>
+                <Tooltip title="Destination amount">
+                    <TextField type='number' label="Amount" id="amountTextField" value={destinationAmount} sx={{ m: 1, width: 120 }} onChange={handleChangeDestinationAmount}
+                        InputProps={{
+                            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                        }} />
+                </Tooltip>
 
                 <Button variant="contained" color='primary' onClick={saveTransfer} className={classes.saveButton} style={{ backgroundColor: "#1c73d3" }}> Save </Button>
             </div>
             {showErrorEmptyFields && <ErrorMessage> All fields are required </ErrorMessage>}
             {showErrorOriginAndDestinationEquals && <ErrorMessage> Origin and destination can't be the same </ErrorMessage>}
             {showErrorFailedSave && <ErrorMessage> Save transfer failed </ErrorMessage>}
-            {showErrorSuccesfulSaving && <SuccessMessage> Successfully saved transfer</SuccessMessage>}
+            {showSuccesfulSaving && <SuccessMessage> Successfully saved transfer</SuccessMessage>}
         </>
     );
+
 }
