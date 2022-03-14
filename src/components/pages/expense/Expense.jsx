@@ -7,12 +7,14 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import { makeStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
+import Autocomplete from '@mui/material/Autocomplete';
 import Header from './../../common/header/Header'
 import placeService from './../../../services/places'
 import categoryService from "./../../../services/categories"
 import paymentModeService from "./../../../services/paymentModes"
 import ErrorMessage from '../../common/ErrorMessage'
 import SuccessMessage from '../../common/SuccessMessage'
+import { Box } from '@mui/system';
 
 const useStyles = makeStyles({
     title: {
@@ -62,12 +64,14 @@ export default function Expense() {
     }, []);
 
 
-    const handleChangePlace = (event) => {
-        setSelectedPlace(event.target.value);
+    const handleChangePlace = (event, value) => {
+        console.log("id " + value.id)
+        setSelectedPlace(value.id);
         setShowErrorEmptyFields(false);
     };
 
-    const handleChangeCategory = (event) => {
+    const handleChangeCategory = (event, value) => {
+        console.log("id " + value.id)
         setSelectedCategory(event.target.value);
         setShowErrorEmptyFields(false);
     };
@@ -77,8 +81,9 @@ export default function Expense() {
         setShowErrorEmptyFields(false);
     };
 
-    const handleChangePaymentMode = (event) => {
-        setSelectedPaymentMode(event.target.value);
+    const handleChangePaymentMode = (event, value) => {
+        console.log("id " + value.id)
+        setSelectedPaymentMode(value.id);
         setShowErrorEmptyFields(false);
     };
 
@@ -123,25 +128,26 @@ export default function Expense() {
         <>
             <Header />
             <h1 className={classes.title}>Expense</h1>
-            <div style={{ marginLeft: "550px", marginTop: "100px" }}>
+
+
+            < div style={{ margin: "auto" }}>
                 <FormControl sx={{ m: 1, minWidth: 150 }}>
-                    <InputLabel id="placeLabel">Place*</InputLabel>
-                    <Select labelId="placeLabel"
-                        id="placeSelect" value={selectedPlace} label="Place" onChange={handleChangePlace} >
-                        <MenuItem key={'empty'} />
-                        {places.map(place => {
-                            return <MenuItem key={place.id} value={place.id}>{place.name}</MenuItem>
-                        })}
-                    </Select>
+                    <Autocomplete
+                        id="placePicklist"
+                        options={places}
+                        getOptionLabel={(place) => `${place.name}`}
+                        sx={{ width: 300, margin: 'auto' }}
+                        onChange={handleChangePlace}
+                        renderInput={(params) => <TextField {...params} label="Place" />} />
                 </FormControl>
                 <FormControl sx={{ m: 1, minWidth: 150 }}>
-                    <InputLabel id="categoryLabel">Category*</InputLabel>
-                    <Select labelId="categoryLabel"
-                        id="categorySelect" value={selectedCategory} label="Category" onChange={handleChangeCategory} >
-                        {categories.map(category => {
-                            return <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
-                        })}
-                    </Select>
+                    <Autocomplete
+                        id="categoryPicklist"
+                        options={categories}
+                        getOptionLabel={(category) => `${category.name}`}
+                        sx={{ width: 300, margin: 'auto' }}
+                        onChange={handleChangeCategory}
+                        renderInput={(params) => <TextField {...params} label="Category" />} />
                 </FormControl>
 
 
@@ -152,20 +158,21 @@ export default function Expense() {
                 />
 
                 <FormControl sx={{ m: 1, minWidth: 160 }}>
-                    <InputLabel id="paymentModeLabel">Payment mode*</InputLabel>
-                    <Select labelId="paymentModeLabel"
-                        id="paymentModeSelect" value={selectedPaymentMode} label="Payment mode" onChange={handleChangePaymentMode} >
-                        {paymentModes.map(paymentMode => {
-                            return <MenuItem key={paymentMode.id} value={paymentMode.id}>{paymentMode.name}</MenuItem>
-                        })}
-                    </Select>
+                    <Autocomplete
+                        id="paymentModePicklist"
+                        options={paymentModes}
+                        getOptionLabel={(paymentMode) => `${paymentMode.name}`}
+                        sx={{ width: 300, margin: 'auto' }}
+                        onChange={handleChangePaymentMode}
+                        renderInput={(params) => <TextField {...params} label="Payment mode*" />} />
                 </FormControl>
 
                 <Button variant="contained" color='primary' onClick={saveExpense} className={classes.saveButton} style={{ backgroundColor: "#1c73d3" }}> Save </Button>
-            </div>
+            </div >
             {showErrorEmptyFields && <ErrorMessage> All fields are required </ErrorMessage>}
             {showErrorFailedSave && <ErrorMessage> Save expense failed </ErrorMessage>}
             {showErrorSuccesfulSaving && <SuccessMessage> Successfully saved expense</SuccessMessage>}
         </>
     );
 }
+
