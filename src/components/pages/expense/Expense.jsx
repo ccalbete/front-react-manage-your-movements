@@ -65,14 +65,12 @@ export default function Expense() {
 
 
     const handleChangePlace = (event, value) => {
-        console.log("id " + value.id)
         setSelectedPlace(value.id);
         setShowErrorEmptyFields(false);
     };
 
     const handleChangeCategory = (event, value) => {
-        console.log("id " + value.id)
-        setSelectedCategory(event.target.value);
+        setSelectedCategory(value.id);
         setShowErrorEmptyFields(false);
     };
 
@@ -82,7 +80,6 @@ export default function Expense() {
     };
 
     const handleChangePaymentMode = (event, value) => {
-        console.log("id " + value.id)
         setSelectedPaymentMode(value.id);
         setShowErrorEmptyFields(false);
     };
