@@ -3,18 +3,54 @@ import Category from './Category'
 import { Grid } from '@material-ui/core'
 
 import categoryService from "./../../../../services/categories"
+import * as currencies from "./../../../../enums/currency.enum"
 
 export default function Summary() {
-
-    const [categories, setCategories] = React.useState([]);
+    const [categoriesToShow, setCategoriesToShow] = React.useState([]);
 
     React.useEffect(() => {
         async function getCategories() {
             try {
                 //Fetch
-                const categoriesFromApi = await categoryService.getUserNotFixedExpensesCategories();
+                const notFixedExpenseCategories = (await categoryService.getUserCategories()).filter(category => !category.is_fixed_expense);
 
-                setCategories(categoriesFromApi);
+                const categoriesPesosFromApi = await categoryService.getSumUserExpensesByNotFixedCategories(currencies.PESOS);
+
+                const categoriesDollarsFromApi = await categoryService.getSumUserExpensesByNotFixedCategories(currencies.USD);
+
+                const categoriesToShow = {}
+
+                categoriesPesosFromApi.forEach(category => {
+                    categoriesToShow[`${category.id}-$`] = {
+                        id: category.id,
+                        name: category.name,
+                        spent: category.spent,
+                        symbol: '$',
+                    }
+                });
+
+                categoriesDollarsFromApi.forEach(category => {
+                    categoriesToShow[`${category.id}-USD`] = {
+                        id: category.id,
+                        name: category.name,
+                        spent: category.spent,
+                        symbol: 'USD',
+                    }
+                });
+
+                notFixedExpenseCategories.forEach(category => {
+                    if (!categoriesToShow[`${category.id}-$`] && !categoriesToShow[`${category.id}-USD`]) {
+                        categoriesToShow[category.id] = {
+                            id: category.id,
+                            name: category.name,
+                            spent: 0,
+                            symbol: '',
+                        }
+                    }
+                });
+
+                setCategoriesToShow(categoriesToShow);
+
 
             } catch (error) { throw new Error(error); }
         } getCategories();
@@ -24,8 +60,8 @@ export default function Summary() {
     return (
         <>
             <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
-                {categories.map(category =>
-                    <Grid item xs={2} sm={4} md={4} key={category.id} >  <Category title={category.name} amount={category.spent} /> </Grid>
+                {Object.values(categoriesToShow).map(category =>
+                    <Grid item xs={2} sm={4} md={4} key={category.id} >  <Category title={category.name} amount={category.spent} currencySymbol={category.symbol} /> </Grid>
                 )}
             </Grid>
         </>

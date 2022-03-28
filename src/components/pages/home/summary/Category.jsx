@@ -11,13 +11,13 @@ const useStyles = makeStyles({
     }
 });
 
-function Category({ title, amount }) {
+function Category({ title, amount, currencySymbol }) {
     const classes = useStyles();
     return (
         <Card variant="outlined" sx={{ minWidth: 275 }} className={classes.card}>
             <CardContent>
                 <Typography variant="h3" component="div">
-                    ${amount}
+                    {currencySymbol} {amount}
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.primary">
                     {title}

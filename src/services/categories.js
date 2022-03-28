@@ -30,8 +30,8 @@ const getUserFixedExpensesCategories = function () {
     }).catch(error => { throw new Error(error); });
 }
 
-function getUserNotFixedExpensesCategories() {
-    return fetch(url + user + "/notFixedExpenses", {
+function getSumUserExpensesByNotFixedCategories(currencyId) {
+    return fetch(url + user + "/notFixedExpenses/" + currencyId, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -44,9 +44,10 @@ function getUserNotFixedExpensesCategories() {
     }).catch(error => { throw new Error(error);});
 }
 
-const functionsToExport = {
+const functionToExport = {
     getUserCategories,
     getUserFixedExpensesCategories,
-    getUserNotFixedExpensesCategories
-}
-export default functionsToExport;
+    getSumUserExpensesByNotFixedCategories
+ }
+
+export default functionToExport
