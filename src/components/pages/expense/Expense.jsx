@@ -139,7 +139,7 @@ export default function Expense() {
                         getOptionLabel={(place) => `${place.name}`}
                         sx={{ width: 300, margin: 'auto' }}
                         onChange={handleChangePlace}
-                        renderInput={(params) => <TextField {...params} label="Place" />}
+                        renderInput={(params) => <TextField {...params} label="Place*" />}
                         inputValue={selectedPlace.name}
                         key={selectedPlace} />
                 </FormControl>
@@ -150,7 +150,7 @@ export default function Expense() {
                         getOptionLabel={(category) => `${category.name}`}
                         sx={{ width: 300, margin: 'auto' }}
                         onChange={handleChangeCategory}
-                        renderInput={(params) => <TextField {...params} label="Category" />}
+                        renderInput={(params) => <TextField {...params} label="Category*" />}
                         inputValue={selectedCategory.name}
                         key={selectedCategory} />
                 </FormControl>
